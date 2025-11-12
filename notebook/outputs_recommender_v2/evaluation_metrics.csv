@@ -1,0 +1,2 @@
+meta_r2_train,ndcg_at_10_sample,map_at_10_sample,num_students,num_internships,num_interactions,num_recommendation_rows,num_assignments
+0.5664399862289429,0.9141251437442538,0.9455015773284622,500,140,9000,5000,423

@@ -1,0 +1,51 @@
+# ===============================
+# HYBRID RECOMMENDER API BACKEND
+# (FastAPI + SQLite + Pretrained Models)
+# ===============================
+
+# --- Core ML & Data Science (for loading artifacts) ---
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+joblib>=1.4.0
+
+# --- Text Embeddings & Similarity ---
+sentence-transformers>=2.7.0
+tqdm>=4.66.0
+scipy>=1.11.0
+
+# --- Optional Collaborative Filtering (pretrained .pkl only) ---
+# You don’t need to compile scikit-surprise again for serving.
+# Commented out to avoid Windows build issues — uncomment if retraining CF.
+# scikit-surprise>=1.1.3
+
+# --- Optimization (for allocation) ---
+ortools>=9.10.4067
+
+# --- Visualization / Analysis (optional for debugging only) ---
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# ===============================
+# DATABASE INTEGRATION
+# ===============================
+sqlalchemy>=2.0.25          # ORM (works with SQLite + PostgreSQL)
+python-dotenv>=1.0.1        # For environment variables
+
+# SQLite is built-in to Python (no need to install separately)
+# PostgreSQL & MongoDB (future-ready)
+psycopg2-binary>=2.9.9      # PostgreSQL driver
+pymongo>=4.6.0              # MongoDB client (optional)
+
+# ===============================
+# BACKEND API (FastAPI)
+# ===============================
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+
+# ===============================
+# OPTIONAL - Interactive notebooks / quick testing
+# ===============================
+notebook>=7.0.8
+jupyterlab>=4.0.10
+streamlit>=1.37.0           # (for optional dashboard testing)
