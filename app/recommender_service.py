@@ -39,35 +39,35 @@ def recommend_for_student(student_id: str, top_k: int = 10):
     
     # Merge with internship details to get additional fields
     if not internships_df.empty and not sub.empty:
-        # Merge recommendations with internship details
+        # Merge recommendations with ALL internship details
         merged = sub.merge(
-            internships_df[['internship_id', 'stipend', 'remote', 'state', 'description', 
-                          'required_skills', 'min_age', 'max_age', 'capacity']],
+            internships_df[['internship_id', 'required_skills', 'min_age', 'max_age', 
+                          'stipend', 'remote', 'capacity', 'org_pref_govt', 'ministry', 
+                          'state', 'csr_underprivileged_pct', 'description', 'job_text']],
             on='internship_id',
             how='left'
         )
         # Convert to dict list with all fields
         result = merged[['student_id', 'internship_id', 'title', 'domain', 'score', 'rank',
-                        'stipend', 'remote', 'state', 'description', 'required_skills',
-                        'min_age', 'max_age', 'capacity']].to_dict(orient='records')
+                        'required_skills', 'min_age', 'max_age', 'stipend', 'remote', 
+                        'capacity', 'org_pref_govt', 'ministry', 'state', 
+                        'csr_underprivileged_pct', 'description', 'job_text']].to_dict(orient='records')
         
         # Handle NaN values - convert to None for JSON serialization
         for rec in result:
             for key, value in rec.items():
                 if pd.isna(value):
                     rec[key] = None
-            # Convert remote to int if not None
-            if rec.get('remote') is not None:
-                rec['remote'] = int(rec['remote'])
-            # Convert numeric fields
-            if rec.get('stipend') is not None:
-                rec['stipend'] = float(rec['stipend'])
-            if rec.get('min_age') is not None:
-                rec['min_age'] = int(rec['min_age'])
-            if rec.get('max_age') is not None:
-                rec['max_age'] = int(rec['max_age'])
-            if rec.get('capacity') is not None:
-                rec['capacity'] = int(rec['capacity'])
+            # Convert integer fields
+            int_fields = ['remote', 'min_age', 'max_age', 'capacity', 'org_pref_govt']
+            for field in int_fields:
+                if rec.get(field) is not None:
+                    rec[field] = int(rec[field])
+            # Convert float fields
+            float_fields = ['stipend', 'csr_underprivileged_pct']
+            for field in float_fields:
+                if rec.get(field) is not None:
+                    rec[field] = float(rec[field])
         
         return result
     else:

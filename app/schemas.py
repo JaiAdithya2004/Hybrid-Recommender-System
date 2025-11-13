@@ -9,15 +9,19 @@ class RecItem(BaseModel):
     domain: Optional[str]
     score: float
     rank: int
-    # Additional internship details
-    stipend: Optional[float] = None
-    remote: Optional[int] = None
-    state: Optional[str] = None
-    description: Optional[str] = None
+    # All internship details from CSV
     required_skills: Optional[str] = None
     min_age: Optional[int] = None
     max_age: Optional[int] = None
+    stipend: Optional[float] = None
+    remote: Optional[int] = None
     capacity: Optional[int] = None
+    org_pref_govt: Optional[int] = None
+    ministry: Optional[str] = None
+    state: Optional[str] = None
+    csr_underprivileged_pct: Optional[float] = None
+    description: Optional[str] = None
+    job_text: Optional[str] = None
 
 class RecsResponse(BaseModel):
     student_id: str

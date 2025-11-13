@@ -68,10 +68,22 @@ def list_students():
 
 @app.get("/internships")
 def list_internships():
+    """Get all internships with full details"""
     path = OUT_DIR / "internships_synthetic.csv"
     if path.exists():
         df = pd.read_csv(path)
-        return {"count": len(df), "internships": df[['internship_id','title','domain']].to_dict(orient='records')}
+        # Convert to dict and handle NaN values
+        internships = df.to_dict(orient='records')
+        for internship in internships:
+            for key, value in internship.items():
+                if pd.isna(value):
+                    internship[key] = None
+            # Convert remote and org_pref_govt to int if not None
+            if internship.get('remote') is not None:
+                internship['remote'] = int(internship['remote'])
+            if internship.get('org_pref_govt') is not None:
+                internship['org_pref_govt'] = int(internship['org_pref_govt'])
+        return {"count": len(df), "internships": internships}
     return {"count": 0, "internships": []}
 
 @app.get("/internship/{internship_id}")
@@ -92,12 +104,18 @@ def get_internship_details(internship_id: str):
     for key, value in result.items():
         if pd.isna(value):
             result[key] = None
-        elif isinstance(value, (int, float)) and pd.isna(value):
-            result[key] = None
     
-    # Convert remote to int if not None
-    if result.get('remote') is not None:
-        result['remote'] = int(result['remote'])
+    # Convert integer fields
+    int_fields = ['min_age', 'max_age', 'remote', 'capacity', 'org_pref_govt']
+    for field in int_fields:
+        if result.get(field) is not None:
+            result[field] = int(result[field])
+    
+    # Convert float fields
+    float_fields = ['stipend', 'csr_underprivileged_pct']
+    for field in float_fields:
+        if result.get(field) is not None:
+            result[field] = float(result[field])
     
     return result
 
