@@ -62,6 +62,13 @@ venv.bak/
 **/models/
 **/checkpoints/
 
+# Allow essential model files for deployment
+!notebook/outputs_recommender_v2/meta_model_xgb.pkl
+!notebook/outputs_recommender_v2/meta_scaler.pkl
+!notebook/outputs_recommender_v2/svd_model.pkl
+!notebook/outputs_recommender_v2/sbert_all_mpnet_model/
+!notebook/outputs_recommender_v2/sbert_all_mpnet_model/**
+
 # OS
 .DS_Store
 .DS_Store?

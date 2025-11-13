@@ -74,6 +74,33 @@ def list_internships():
         return {"count": len(df), "internships": df[['internship_id','title','domain']].to_dict(orient='records')}
     return {"count": 0, "internships": []}
 
+@app.get("/internship/{internship_id}")
+def get_internship_details(internship_id: str):
+    """Get detailed information about a specific internship"""
+    path = OUT_DIR / "internships_synthetic.csv"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Internships data not found")
+    
+    df = pd.read_csv(path)
+    internship = df[df['internship_id'] == internship_id]
+    
+    if internship.empty:
+        raise HTTPException(status_code=404, detail=f"Internship {internship_id} not found")
+    
+    # Convert to dict and handle NaN values
+    result = internship.iloc[0].to_dict()
+    for key, value in result.items():
+        if pd.isna(value):
+            result[key] = None
+        elif isinstance(value, (int, float)) and pd.isna(value):
+            result[key] = None
+    
+    # Convert remote to int if not None
+    if result.get('remote') is not None:
+        result['remote'] = int(result['remote'])
+    
+    return result
+
 @app.get("/recommend/{student_id}", response_model=schemas.RecsResponse)
 def recommend(student_id: str, top_k: int = 10):
     recs = recommender_service.recommend_for_student(student_id, top_k=top_k)
