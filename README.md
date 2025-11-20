@@ -8,6 +8,8 @@
 
 > **Production-ready recommendation system combining semantic matching (SBERT embeddings), collaborative filtering, and optimization algorithms. Features REST API, SQLite persistence, and comprehensive performance evaluation suite.**
 
+### Access Here :   https://intern-match-ai-gold.vercel.app/
+
 ### 🎯 Key Highlights
 - 🤖 **Hybrid Recommendation Engine**: Content-based (SBERT) + Collaborative Filtering + Optimization (OR-Tools)
 - ⚡ **High-Performance API**: FastAPI backend serving precomputed recommendations with sub-100ms latency
@@ -846,5 +848,10 @@ Interactive frontend displaying personalized internship recommendations powered 
 
 
 <img width="1905" height="935" alt="Screenshot 2025-11-20 223459" src="https://github.com/user-attachments/assets/689cac13-e885-40ed-974f-88aee4c47fe8" />
+
+
+
+
+# Access Here :   https://intern-match-ai-gold.vercel.app/
 
 
